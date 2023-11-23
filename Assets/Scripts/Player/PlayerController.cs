@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public float Gravity = 100;
 
     public bool Grounded;
+    public bool Rolling;
 
     private Rigidbody rb;
 
@@ -122,6 +123,28 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector3.up * JumpForce, ForceMode.VelocityChange);
             JumpAudio.Play();
+        }
+    }
+
+    public void OnRoll(InputAction.CallbackContext context)
+    {
+        //Start Rolling
+        if(context.started)
+        {
+            Rolling = true;
+            if(Grounded)
+            {
+                rb.freezeRotation = false;
+            }
+        }
+        //Stop Rolling
+        else if(context.canceled)
+        {
+            Rolling = false;
+            if(Grounded)
+            {
+                rb.freezeRotation = true;
+            }
         }
     }
 

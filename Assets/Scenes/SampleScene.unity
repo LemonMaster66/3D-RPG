@@ -946,7 +946,7 @@ GameObject:
   - component: {fileID: 2029527337}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1013,6 +1013,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 7e6f3c4f-e4db-40aa-ae48-d7226ff5a8f2
     m_ActionName: Player/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2029527338}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRoll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8024675a-9301-42ad-944e-ee065547e1d3
+    m_ActionName: Player/Roll[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1036,6 +1052,7 @@ MonoBehaviour:
   JumpForce: 30
   Gravity: 100
   Grounded: 1
+  Rolling: 0
   DynamicTurningSpeeds: 1
   turnSpeedFactor: 0
   RollingAudio: {fileID: 2026240002}
@@ -1060,7 +1077,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!135 &2029527340
 SphereCollider:

@@ -114,7 +114,6 @@ public class PlayerController : MonoBehaviour
             }
             rb.freezeRotation = true;
             if(rb.velocity != Vector3.zero) transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 0.25f);
-            //transform.rotation = Quaternion.Euler(0,transform.rotation.y,0);
         }
 
         //Roll Storage Period

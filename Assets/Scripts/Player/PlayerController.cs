@@ -13,32 +13,21 @@ public class PlayerController : MonoBehaviour
     public float JumpForce = 8;
     public float Gravity = 100;
 
+    [Header("States")]
     public bool Grounded       = true;
     public bool Rolling        = false;
     public bool RollingStorage = true;
 
-    private Rigidbody rb;
-    private Timers timings;
-
     [Header("Turning Physics")]
-    [Tooltip("Turning Speeds Increase With Forward Momentum (Recomended)")]
     public bool DynamicTurningSpeeds = true;
-
+    public float turnSpeedFactor;
     private float movementX;
     private float movementY;
-
-    public float turnSpeedFactor;
-
 
     [Header("Boulder Audio")]
     public AudioSource RollingAudio;
     public AudioSource JumpAudio;
     public AudioSource LandAudio;
-
-    private float XVolume;
-    private float ZVolume;
-
-    [Tooltip("How Gradualy the Rolling Volume Increases *60 Default*")]
     public int VolumeDivide = 60;
 
     [Header("Debug Stats")]
@@ -46,6 +35,8 @@ public class PlayerController : MonoBehaviour
     public float ForwardVelocityMagnitude;
     public float turnSpeed;
     public float FallingVelocity;
+    private Rigidbody rb;
+    private Timers timings;
 
 
     void Awake()

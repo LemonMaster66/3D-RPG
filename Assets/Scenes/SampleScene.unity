@@ -676,7 +676,7 @@ GameObject:
   - component: {fileID: 1012452192}
   - component: {fileID: 1012452196}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

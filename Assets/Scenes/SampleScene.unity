@@ -347,6 +347,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c0b3bcb0deb2d154282c2340bad5390c,
         type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c0b3bcb0deb2d154282c2340bad5390c,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -576,7 +581,7 @@ GameObject:
   m_Component:
   - component: {fileID: 427433219}
   - component: {fileID: 427433220}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Land
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -703,7 +708,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 725168260}
-  m_Layer: 0
+  - component: {fileID: 725168261}
+  m_Layer: 8
   m_Name: SFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -728,6 +734,33 @@ Transform:
   m_Father: {fileID: 2029527343}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &725168261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725168259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7642ed6c2f9d68547bbbf95de00b54e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
+  animator: {fileID: 0}
+  VolumeDivide: 60
+  FallingVelocity: 0
+  RollingAudio: {fileID: 0}
+  JumpAudio: {fileID: 0}
+  LandAudio: {fileID: 0}
+  Spear: {fileID: 0}
+  ThrowSpear: []
+  RecallSpear: []
+  RellSpeer: []
+  Impale: {fileID: 0}
+  ImpaleGround: []
+  ImpaleEnemy: []
+  CatchSpear: []
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,7 +824,7 @@ GameObject:
   - component: {fileID: 1012452193}
   - component: {fileID: 1012452192}
   - component: {fileID: 1012452196}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -925,7 +958,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1251498399}
   - component: {fileID: 1251498400}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1170,6 +1203,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 58421db23c37d08489741af5b0293979,
         type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 58421db23c37d08489741af5b0293979,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -1185,7 +1223,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1960023477}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Temp Player Models
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1219,7 +1257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2026240001}
   - component: {fileID: 2026240002}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Roll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1354,7 +1392,7 @@ GameObject:
   - component: {fileID: 2029527338}
   - component: {fileID: 2029527345}
   - component: {fileID: 2029527337}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1492,10 +1530,12 @@ MonoBehaviour:
   JumpAudio: {fileID: 1251498400}
   LandAudio: {fileID: 427433220}
   VolumeDivide: 60
+  rb: {fileID: 0}
   PlayerVelocity: {x: 0, y: 0, z: 0}
   ForwardVelocityMagnitude: 0
   turnSpeed: 0
-  FallingVelocity: 0
+  CamF: {x: 0, y: 0, z: 0}
+  CamR: {x: 0, y: 0, z: 0}
   Speed1: 200
   Speed2: 150
   MaxSpeed1: 20
@@ -1622,11 +1662,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63714b91d0c4f3f4e973eeedc4ce864a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpearPrefab: {fileID: 0}
+  cinemachineComposer: {fileID: 0}
+  SpearPrefab: {fileID: 3407723307755316728, guid: 555f16336a721574da6536af5359800e,
+    type: 3}
   SpearObject: {fileID: 0}
   ThrowForce: 100
   Gravity: 9.8
-  CameraZoom: 0
   FoundSpear: 1
   HasSpear: 1
   Aiming: 0
@@ -1750,7 +1791,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4969084126523503591}
-  m_LocalRotation: {x: 0.064722985, y: -0.7041384, z: 0.06472298, w: 0.70413846}
+  m_LocalRotation: {x: 0.047023144, y: -0.7055415, z: 0.047023144, w: 0.70554155}
   m_LocalPosition: {x: 12.629999, y: 5.1, z: -0.00000075280667}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1940,7 +1981,7 @@ MonoBehaviour:
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
   m_ScreenX: 0.5
-  m_ScreenY: 0.63
+  m_ScreenY: 0.7
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_SoftZoneWidth: 0.8
@@ -2180,6 +2221,7 @@ GameObject:
   - component: {fileID: 5861528666500158997}
   - component: {fileID: 5861528666500158998}
   - component: {fileID: 5861528666500158999}
+  - component: {fileID: 5861528666500159000}
   m_Layer: 0
   m_Name: Cinemachine Settings
   m_TagString: Untagged
@@ -2355,6 +2397,26 @@ MonoBehaviour:
   AutoEnableInputs: 1
   XYAxis: {fileID: -7027827558084361420, guid: 7e13a7371bdc84046b53667262122bda, type: 3}
   ZAxis: {fileID: 0}
+--- !u!95 &5861528666500159000
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5861528666500158984}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3aea1f7d032699944b5e2da372a51965, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &5861528666619543067
 Transform:
   m_ObjectHideFlags: 3
@@ -2362,7 +2424,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5861528666619543069}
-  m_LocalRotation: {x: 0.13669337, y: -0.59698904, z: 0.13937536, w: 0.77813464}
+  m_LocalRotation: {x: 0.11711295, y: -0.60030025, z: 0.12434228, w: 0.78132147}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

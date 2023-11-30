@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +9,7 @@ public class Spear : MonoBehaviour
 {
     private PlayerController playerController;
     private CinemachineFreeLook cinemachineFreeLook;
+    public CinemachineComposer cinemachineComposer;
 
     public GameObject SpearPrefab;
     public GameObject SpearObject;
@@ -17,10 +17,12 @@ public class Spear : MonoBehaviour
 
     public float ThrowForce = 100;
     public float Gravity = 9.8f;
-    public float CameraZoom = 0;
+
+    private float CameraZoom = 0;
+    private float CameraScreenY = 0;
 
     [Header("States")]
-    public bool FoundSpear   = true;
+    public bool FoundSpear = true;
     public bool HasSpear   = true;
     public bool Aiming     = false;
     public bool AimStorage = false;
@@ -35,8 +37,9 @@ public class Spear : MonoBehaviour
 
     void Start()
     {
-        playerController = FindObjectOfType<PlayerController>();
+        playerController    = FindObjectOfType<PlayerController>();
         cinemachineFreeLook = FindObjectOfType<CinemachineFreeLook>();
+        cinemachineComposer = FindObjectOfType<CinemachineComposer>();
     }
 
     void FixedUpdate()
@@ -47,17 +50,36 @@ public class Spear : MonoBehaviour
             if(!playerController.Rolling)
             {
                 cinemachineFreeLook.m_Lens.FieldOfView = Mathf.SmoothDamp(cinemachineFreeLook.m_Lens.FieldOfView, 30, ref CameraZoom, 0.2f);
+                cinemachineComposer.m_ScreenY          = Mathf.SmoothDamp(cinemachineComposer.m_ScreenY, 0.9f, ref CameraScreenY, 0.2f);
                 playerController.MaxSpeed = playerController.MaxSpeed1-10;
             }
         }
         else
         {
             cinemachineFreeLook.m_Lens.FieldOfView = Mathf.SmoothDamp(cinemachineFreeLook.m_Lens.FieldOfView, 40, ref CameraZoom, 0.05f);
-            cinemachineFreeLook.m_Lens.LensShift.y = 1;
+            cinemachineComposer.m_ScreenY          = Mathf.SmoothDamp(cinemachineComposer.m_ScreenY, 0.7f, ref CameraScreenY, 0.05f);
+        }
+
+        if(Throwing)
+        {
+            float targetAngle = Mathf.Atan2(rb.velocity.x, rb.velocity.z) * Mathf.Rad2Deg;
+            Quaternion toRotation = Quaternion.Euler(0f, targetAngle, 0f);
         }
 
         CameraZoom = (float)Math.Round(CameraZoom, 2);
     }
+
+
+    public void ThrowSpear()
+    {
+        SpearObject = Instantiate(SpearPrefab, transform.position, Quaternion.identity);
+        rb = SpearObject.GetComponent<Rigidbody>();
+        Thrown = true;
+        Throwing = true;
+        
+        rb.velocity = playerController.Camera.forward*100;
+    }
+
 
     public void OnThrow(InputAction.CallbackContext context)
     {
@@ -91,6 +113,7 @@ public class Spear : MonoBehaviour
                 playerController.MaxSpeed = playerController.MaxSpeed1;
                 Aiming   = false;
                 HasSpear = false;
+                ThrowSpear();
             }
             else if(playerController.Rolling && HasSpear) //Unstore Spear Aim
             {

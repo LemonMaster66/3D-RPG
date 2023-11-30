@@ -34,13 +34,14 @@ public class PlayerController : MonoBehaviour
     public int VolumeDivide = 60;
 
     [Header("Debug Stats")]
-    private Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
     private Timers timings;
     private Spear spear;
     public Vector3 PlayerVelocity;
     public float ForwardVelocityMagnitude;
     public float turnSpeed;
-    public float FallingVelocity;
+    public Vector3 CamF;
+    public Vector3 CamR;
 
     [Header("Stored Values")]
     public int Speed1    = 200; //Walk     Speed
@@ -70,25 +71,9 @@ public class PlayerController : MonoBehaviour
             turnSpeed = (float)Math.Round(turnSpeed, decimals);
         #endregion
         //**********************************
-        #region Sfx
-            //Rolling Audio
-            if (Grounded)
-            {
-                RollingAudio.volume = rb.velocity.magnitude/VolumeDivide;
-            }
-            else
-            {
-                RollingAudio.volume=0;
-
-                FallingVelocity = rb.velocity.y*-1 / VolumeDivide;
-                LandAudio.volume = FallingVelocity;
-                LandAudio.Play();
-            }
-        #endregion
-        //**********************************
         #region PerFrame Calculations
-            Vector3 CamF = Camera.forward;
-            Vector3 CamR = Camera.right;
+            CamF = Camera.forward;
+            CamR = Camera.right;
             CamF.y = 0;
             CamR.y = 0;
             CamF = CamF.normalized;
@@ -117,7 +102,7 @@ public class PlayerController : MonoBehaviour
                 RollingStorage = false;
             }
             rb.freezeRotation = true;
-            if(rb.velocity != Vector3.zero) transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 0.25f);
+            if(rb.velocity.magnitude > 0.5) transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 0.25f);
         }
 
         //Roll Storage Period
@@ -145,6 +130,9 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = (CamF * movementY + CamR * movementX).normalized;
         turnSpeed = turnSpeedFactor * ForwardVelocityMagnitude;
         rb.AddForce(movement * Speed + CamR * movementX * turnSpeed);
+
+        Debug.DrawLine(transform.position, Camera.forward*100, Color.red, 0f);
+        Debug.DrawLine(transform.position, Camera.up*100, Color.green, 0f);
     }
 
     public void OnMove(InputAction.CallbackContext movementValue)

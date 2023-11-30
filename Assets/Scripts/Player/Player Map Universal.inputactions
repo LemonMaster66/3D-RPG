@@ -6,6 +6,15 @@
             "id": "3009df26-b174-4137-b13b-232c4d3ed6c1",
             "actions": [
                 {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "7e6f3c4f-e4db-40aa-ae48-d7226ff5a8f2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Move",
                     "type": "Value",
                     "id": "4a0694c4-c0ff-4428-984b-925778f6d2d5",
@@ -33,13 +42,22 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Look",
-                    "type": "Value",
-                    "id": "7e6f3c4f-e4db-40aa-ae48-d7226ff5a8f2",
-                    "expectedControlType": "Vector2",
+                    "name": "ThrowSpear",
+                    "type": "Button",
+                    "id": "2510abb8-e45f-4c78-8d59-1afccb11188b",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "ed3cd790-3122-4952-b3cb-7bf3f311d2aa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -106,17 +124,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f50f61cf-a4ce-4bd7-a40f-5f4cfb6f5af1",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -198,6 +205,39 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "554a3f50-7fa8-4e23-85d0-262d989efe8b",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e4bc6c7-a39a-4bb3-84f7-d799bd69b4d0",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f50f61cf-a4ce-4bd7-a40f-5f4cfb6f5af1",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "2D Vector",
                     "id": "cd68693f-faa9-4f10-a65e-d3d58049f366",
                     "path": "2DVector",
@@ -265,23 +305,45 @@
                 },
                 {
                     "name": "",
-                    "id": "554a3f50-7fa8-4e23-85d0-262d989efe8b",
-                    "path": "<Keyboard>/shift",
+                    "id": "4e6d4a2a-e776-4018-81dc-790ea5b0118e",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Roll",
+                    "action": "ThrowSpear",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "2e4bc6c7-a39a-4bb3-84f7-d799bd69b4d0",
-                    "path": "<Gamepad>/leftShoulder",
+                    "id": "b05462cc-f2ce-442f-81ef-9d1bb9cb9c27",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Roll",
+                    "action": "ThrowSpear",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "668b25a3-4f54-417c-81ff-5e40069db760",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0f82174-255e-4e79-b97c-9509669881ca",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

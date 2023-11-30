@@ -1,22 +1,25 @@
 using System;
 using System.Collections;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public Transform Camera;
+    public GameObject StandingModel;
+    public GameObject RollingModel;
     
     [Header("Rolling Physics")]
-    public float speed = 50;
-    public float maxSpeed = 80;
+    public float Speed = 50;
+    public float MaxSpeed = 80;
     public float JumpForce = 8;
     public float Gravity = 100;
 
     [Header("States")]
     public bool Grounded       = true;
     public bool Rolling        = false;
-    public bool RollingStorage = true;
+    public bool RollingStorage = false;
 
     [Header("Turning Physics")]
     public bool DynamicTurningSpeeds = true;
@@ -31,20 +34,29 @@ public class PlayerController : MonoBehaviour
     public int VolumeDivide = 60;
 
     [Header("Debug Stats")]
+    private Rigidbody rb;
+    private Timers timings;
+    private Spear spear;
     public Vector3 PlayerVelocity;
     public float ForwardVelocityMagnitude;
     public float turnSpeed;
     public float FallingVelocity;
-    private Rigidbody rb;
-    private Timers timings;
+
+    [Header("Stored Values")]
+    public int Speed1    = 200; //Walk     Speed
+    public int Speed2    = 150; //Roll     Speed
+    public int MaxSpeed1 = 20;  //Walk Max Speed
+    public int MaxSpeed2 = 200; //Roll Max Speed
 
 
     void Awake()
     {
         timings = GetComponent<Timers>();
-        rb = GetComponent<Rigidbody>();
+        rb      = GetComponent<Rigidbody>();
+        spear   = GetComponent<Spear>();
+        Camera  = GameObject.Find("Camera").transform;
+
         rb.useGravity = false;
-        Camera = GameObject.Find("Camera").transform;
     }
 
     void FixedUpdate()
@@ -99,8 +111,9 @@ public class PlayerController : MonoBehaviour
         {
             if(RollingStorage)
             {
-                speed = 200;
-                maxSpeed = 20;
+                Speed = Speed1;
+                if(!spear.Aiming && !spear.AimStorage) MaxSpeed = MaxSpeed1; //Not Aiming
+                else                                   MaxSpeed = MaxSpeed1; //Aiming
                 RollingStorage = false;
             }
             rb.freezeRotation = true;
@@ -118,12 +131,12 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Physics.gravity * Gravity /10);
 
         //max speed
-        if (rb.velocity.magnitude > maxSpeed)
+        if (rb.velocity.magnitude > MaxSpeed)
         {
             // Get the velocity direction
             Vector3 newVelocity = rb.velocity;
             newVelocity.y = 0f;
-            newVelocity = Vector3.ClampMagnitude(newVelocity, maxSpeed);
+            newVelocity = Vector3.ClampMagnitude(newVelocity, MaxSpeed);
             newVelocity.y = rb.velocity.y;
             rb.velocity = newVelocity;
         }
@@ -131,7 +144,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement = (CamF * movementY + CamR * movementX).normalized;
         turnSpeed = turnSpeedFactor * ForwardVelocityMagnitude;
-        rb.AddForce(movement * speed + CamR * movementX * turnSpeed);
+        rb.AddForce(movement * Speed + CamR * movementX * turnSpeed);
     }
 
     public void OnMove(InputAction.CallbackContext movementValue)
@@ -155,13 +168,20 @@ public class PlayerController : MonoBehaviour
         //Start Rolling
         if(context.started)
         {
-            Rolling = true;
-            RollingStorage = true;
+            Rolling           = true;
+            RollingStorage    = true;
             rb.freezeRotation = false;
+            Speed             = Speed2;
+            MaxSpeed          = MaxSpeed2;
+            StandingModel.SetActive(false);
+            RollingModel.SetActive(true);
+            if(spear.Aiming)
+            {
+                spear.Aiming     = false;
+                spear.AimStorage = true;
+            }
             if(Grounded)
             {
-                speed = 150;
-                maxSpeed = 200;
                 if(rb.velocity.magnitude > 0.1) //Dive Roll
                 {
                     Debug.Log("Dive Roll");
@@ -180,6 +200,13 @@ public class PlayerController : MonoBehaviour
         else if(context.canceled)
         {
             Rolling = false;
+            StandingModel.SetActive(true);
+            RollingModel.SetActive(false);
+            if(spear.AimStorage)
+            {
+                spear.Aiming     = true;
+                spear.AimStorage = false;
+            }
             if(Grounded)
             {
                 if(rb.velocity.magnitude > 0.1) //Bounce Up

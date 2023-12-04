@@ -4,17 +4,9 @@ public class GroundCheck : MonoBehaviour
 {
     public PlayerController playerController;
     public PlayerSFX playerSFX;
+    public Animator animator;
     public GameObject GroundObject;
     public bool Grounded;
-
-    public Surface surface;
-    public enum Surface
-    {
-        Default,
-        Grass,
-        Stone,
-        Dirt
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -23,6 +15,7 @@ public class GroundCheck : MonoBehaviour
         GroundObject = other.gameObject;
         Grounded = true;
         playerSFX.LandAudio.Play();
+        animator.Play("Land");
     }
 
     private void OnTriggerExit(Collider other)

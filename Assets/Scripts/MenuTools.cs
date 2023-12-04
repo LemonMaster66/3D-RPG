@@ -15,6 +15,11 @@ public class MenuTools : MonoBehaviour
         Application.Quit();
         UnityEditor.EditorApplication.isPlaying = false;
     }
+
+    public void OnClickSFX(AudioSource ButtonClickSFX)
+    {
+        ButtonClickSFX.Play();
+    }
 }
 
 

@@ -6,10 +6,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public Transform Camera;
-    public GameObject StandingModel;
-    public GameObject RollingModel;
-    
     [Header("Rolling Physics")]
     public float Speed = 50;
     public float MaxSpeed = 80;
@@ -29,14 +25,15 @@ public class PlayerController : MonoBehaviour
 
     [Header("Debug Stats")]
     [HideInInspector] public Rigidbody rb;
-    public Animator animator;
-    private Timers timings;
-    private Spear spear;
-    public Vector3 PlayerVelocity;
-    public float ForwardVelocityMagnitude;
-    public float turnSpeed;
-    public Vector3 CamF;
-    public Vector3 CamR;
+    public Transform Camera;
+    public Animator  animator;
+    private Timers   timings;
+    private Spear    spear;
+    public Vector3   PlayerVelocity;
+    public float     ForwardVelocityMagnitude;
+    public float     turnSpeed;
+    public Vector3   CamF;
+    public Vector3   CamR;
 
     [Header("Stored Values")]
     public int Speed1    = 200; //Walk     Speed
@@ -86,15 +83,16 @@ public class PlayerController : MonoBehaviour
         #endregion
         //**********************************
         #region Animations
-            if(rb.velocity.magnitude > 0.1)
+            if(rb.velocity.magnitude > 0.1 && Grounded) animator.Play("Walk");
+            else if(rb.velocity.magnitude < 0.1 && Grounded) animator.Play("Idle");
+            
+            if  (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk")) animator.speed = rb.velocity.magnitude/MaxSpeed;
+            else animator.speed = 1;
+
+            if(!Grounded)
             {
-                animator.Play("Walk");
-                animator.speed = rb.velocity.magnitude/MaxSpeed;
-            }
-            else if(rb.velocity.magnitude < 0.1)
-            {
-                animator.Play("Idle");
-                animator.speed = 1;
+                if(rb.velocity.y > 0) animator.Play("Jump");
+                else animator.Play("Fall");
             }
         #endregion
         //**********************************
@@ -140,8 +138,8 @@ public class PlayerController : MonoBehaviour
         turnSpeed = turnSpeedFactor * ForwardVelocityMagnitude;
         rb.AddForce(movement * Speed + CamR * movementX * turnSpeed);
 
-        Debug.DrawLine(transform.position, Camera.forward*100, Color.red, 0f);
-        Debug.DrawLine(transform.position, Camera.up*100, Color.green, 0f);
+        //Debug.DrawLine(transform.position, Camera.forward*100, Color.red, 0f);
+        //Debug.DrawLine(transform.position, Camera.up*100, Color.green, 0f);
     }
 
     public void OnMove(InputAction.CallbackContext movementValue)

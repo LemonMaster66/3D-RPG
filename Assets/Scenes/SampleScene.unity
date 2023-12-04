@@ -786,8 +786,8 @@ MonoBehaviour:
   groundCheck: {fileID: 1012452192}
   VolumeDivide: 60
   FallingVelocity: 0
-  Roll: {fileID: 0}
-  Step: {fileID: 0}
+  Roll: {fileID: 1433630875}
+  Step: {fileID: 526097328}
   StepLR: []
   JumpAudio: {fileID: 1251498400}
   LandAudio: {fileID: 427433220}
@@ -1834,9 +1834,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 2029527338}
   playerSFX: {fileID: 725168261}
+  animator: {fileID: 1378654481}
   GroundObject: {fileID: 0}
   Grounded: 0
-  surface: 0
 --- !u!135 &1012452193
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2452,9 +2452,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63b964eaba7d1b64c9753e015f956f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 4969084126523503596}
-  StandingModel: {fileID: 0}
-  RollingModel: {fileID: 0}
   Speed: 50
   MaxSpeed: 80
   JumpForce: 30
@@ -2467,7 +2464,8 @@ MonoBehaviour:
   movementX: 0
   movementY: 0
   rb: {fileID: 0}
-  animator: {fileID: 0}
+  Camera: {fileID: 4969084126523503596}
+  animator: {fileID: 1378654481}
   PlayerVelocity: {x: 0, y: 0, z: 0}
   ForwardVelocityMagnitude: 0
   turnSpeed: 0

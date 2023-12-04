@@ -5,16 +5,15 @@ using UnityEngine;
 public class PlayerSFX : MonoBehaviour
 {
     public PlayerController playerController;
-    public Animator animator;
+    public GroundCheck groundCheck; 
 
     public int VolumeDivide = 60;
     public float FallingVelocity;
 
     [Header("Main Player Physics Sounds")]
-    public AudioSource WalkingAudio;
-    public AudioClip[] WalkType;
-    public AudioSource RollingAudio;
-    public AudioClip[] RollType;
+    public AudioSource Roll;
+    public AudioSource Step;
+    public AudioClip[] StepLR;
 
     public AudioSource JumpAudio;
     public AudioSource LandAudio;
@@ -31,20 +30,39 @@ public class PlayerSFX : MonoBehaviour
     public AudioClip[] ImpaleEnemy;
     public AudioClip[] CatchSpear;
 
+
     void FixedUpdate()
     {
-        //Rolling Audio
-        if (playerController.Grounded)
+        if(playerController.Grounded)
         {
-            RollingAudio.volume = playerController.rb.velocity.magnitude/VolumeDivide;
+            if(playerController.Rolling)
+            {
+                Roll.volume = playerController.rb.velocity.magnitude/VolumeDivide;
+            }
         }
         else
         {
-            RollingAudio.volume=0;
-
             FallingVelocity = playerController.rb.velocity.y*-1 / VolumeDivide;
             LandAudio.volume = FallingVelocity;
-            LandAudio.Play();
+            Roll.volume = 0;
         }
     }
+
+    public void StepSFX(int Leg)
+    {
+        Step.clip = StepLR[Leg];
+        Step.Play();
+    }
+
+    // //Surface Type Beat
+    // public void SurfaceFinder()
+    // {
+    //     if(groundCheck.GroundObject == null) return;
+    //     SurfaceType surfaceType = groundCheck.GroundObject.GetComponent<SurfaceType>();
+    //     if     (surfaceType.surface == SurfaceType.Surface.Default) SurfaceAudio = "Default";
+    //     else if(surfaceType.surface == SurfaceType.Surface.Dirt)    SurfaceAudio = "Dirt";
+    //     else if(surfaceType.surface == SurfaceType.Surface.Grass)   SurfaceAudio = "Grass";
+    //     else if(surfaceType.surface == SurfaceType.Surface.Stone)   SurfaceAudio = "Stone";
+    //     else SurfaceAudio = "Default";
+    // }
 }

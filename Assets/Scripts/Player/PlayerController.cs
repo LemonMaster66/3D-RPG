@@ -24,17 +24,12 @@ public class PlayerController : MonoBehaviour
     [Header("Turning Physics")]
     public bool DynamicTurningSpeeds = true;
     public float turnSpeedFactor;
-    private float movementX;
-    private float movementY;
-
-    [Header("Boulder Audio")]
-    public AudioSource RollingAudio;
-    public AudioSource JumpAudio;
-    public AudioSource LandAudio;
-    public int VolumeDivide = 60;
+    [HideInInspector] public float movementX;
+    [HideInInspector] public float movementY;
 
     [Header("Debug Stats")]
     [HideInInspector] public Rigidbody rb;
+    public Animator animator;
     private Timers timings;
     private Spear spear;
     public Vector3 PlayerVelocity;
@@ -52,10 +47,11 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        timings = GetComponent<Timers>();
-        rb      = GetComponent<Rigidbody>();
-        spear   = GetComponent<Spear>();
-        Camera  = GameObject.Find("Camera").transform;
+        timings  = GetComponent<Timers>();
+        rb       = GetComponent<Rigidbody>();
+        spear    = GetComponent<Spear>();
+        animator = GetComponentInChildren<Animator>();
+        Camera   = GameObject.Find("Camera").transform;
 
         rb.useGravity = false;
     }
@@ -87,6 +83,19 @@ public class PlayerController : MonoBehaviour
             // Calculate the Forward Angle
             float targetAngle = Mathf.Atan2(rb.velocity.x, rb.velocity.z) * Mathf.Rad2Deg;
             Quaternion toRotation = Quaternion.Euler(0f, targetAngle, 0f);
+        #endregion
+        //**********************************
+        #region Animations
+            if(rb.velocity.magnitude > 0.1)
+            {
+                animator.Play("Walk");
+                animator.speed = rb.velocity.magnitude/MaxSpeed;
+            }
+            else if(rb.velocity.magnitude < 0.1)
+            {
+                animator.Play("Idle");
+                animator.speed = 1;
+            }
         #endregion
         //**********************************
 
@@ -147,7 +156,7 @@ public class PlayerController : MonoBehaviour
         if(context.started && Grounded)
         {
             rb.AddForce(Vector3.up * JumpForce, ForceMode.VelocityChange);
-            JumpAudio.Play();
+            //JumpAudio.Play();
         }
     }
 
@@ -161,8 +170,6 @@ public class PlayerController : MonoBehaviour
             rb.freezeRotation = false;
             Speed             = Speed2;
             MaxSpeed          = MaxSpeed2;
-            StandingModel.SetActive(false);
-            RollingModel.SetActive(true);
             if(spear.Aiming)
             {
                 spear.Aiming     = false;
@@ -188,8 +195,6 @@ public class PlayerController : MonoBehaviour
         else if(context.canceled)
         {
             Rolling = false;
-            StandingModel.SetActive(true);
-            RollingModel.SetActive(false);
             if(spear.AimStorage)
             {
                 spear.Aiming     = true;

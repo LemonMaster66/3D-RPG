@@ -66,8 +66,6 @@ public class Spear : MonoBehaviour
             float targetAngle = Mathf.Atan2(rb.velocity.x, rb.velocity.z) * Mathf.Rad2Deg;
             Quaternion toRotation = Quaternion.Euler(0f, targetAngle, 0f);
         }
-
-        //CameraZoom = (float)Math.Round(CameraZoom, 2);
     }
 
 
@@ -132,27 +130,18 @@ public class Spear : MonoBehaviour
 
     public void CollideGround()
     {
-        Collider2D collider = SpearObject.GetComponent<Collider2D>();
-        PlatformEffector2D platformEffector2D = SpearObject.GetComponentInChildren<PlatformEffector2D>();
-        platformEffector2D.enabled = true;
-
         rb.isKinematic = true;
         rb.velocity = new Vector2(0,0);
         rb.freezeRotation = true;
         spearCollision.collided = true;
-        collider.enabled = true;
     }
 
     public void CollideEnemy()
     {
-        Collider2D collider = SpearObject.GetComponent<Collider2D>();
-
         SpearObject.transform.parent = spearCollision.CollidedObject.transform;
-
         rb.isKinematic = true;
         rb.velocity = new Vector2(0,0);
         rb.freezeRotation = true;
         spearCollision.collided = true;
-        collider.enabled = true;
     }
 }

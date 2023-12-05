@@ -69,7 +69,17 @@ ModelImporter:
   - first:
       74: 1182983123156724998
     second: Pumble Rig|Walk
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body
+    second: {fileID: 2100000, guid: e080fb15d29460e4f96d4586ffdce6c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hand
+    second: {fileID: 2100000, guid: a3b8296e5963f5a4bb19e84eae81effb, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

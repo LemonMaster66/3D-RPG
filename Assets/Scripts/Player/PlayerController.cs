@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Unity.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
     public float     turnSpeed;
     public Vector3   CamF;
     public Vector3   CamR;
+    public float     Blend;
 
     [Header("Stored Values")]
     public int Speed1    = 200; //Walk     Speed
@@ -83,16 +85,26 @@ public class PlayerController : MonoBehaviour
         #endregion
         //**********************************
         #region Animations
-            if(rb.velocity.magnitude > 0.1 && Grounded) animator.Play("Walk");
-            else if(rb.velocity.magnitude < 0.1 && Grounded) animator.Play("Idle");
+            // if(Grounded && !Rolling && !RollingStorage && !animator.GetCurrentAnimatorStateInfo(0).IsName("Land"))
+            // {
+            //     if (rb.velocity.magnitude > 0.1)      animator.Play("Walk");
+            //     else if (rb.velocity.magnitude < 0.1) animator.Play("Idle");
+            // }
             
-            if  (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk")) animator.speed = rb.velocity.magnitude/MaxSpeed;
+            //Speed Modifier
+            if  (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk Idle - BlendTree"))
+            {
+                animator.speed = rb.velocity.magnitude/10;
+                animator.speed = math.clamp(animator.speed, 0, 1);
+                Blend = Mathf.Sqrt(rb.velocity.x * rb.velocity.x + rb.velocity.y * rb.velocity.y)/10;
+                animator.SetFloat("Blend", Blend, 0.1f, Time.deltaTime);
+            }
             else animator.speed = 1;
 
             if(!Grounded)
             {
-                if(rb.velocity.y > 0) animator.Play("Jump");
-                else animator.Play("Fall");
+                if(rb.velocity.y > 0 && !Rolling && !RollingStorage) animator.Play("Jump");
+                else if(rb.velocity.y < 0 && !Rolling && !RollingStorage) animator.Play("Fall");
             }
         #endregion
         //**********************************
@@ -177,16 +189,16 @@ public class PlayerController : MonoBehaviour
             {
                 if(rb.velocity.magnitude > 0.1) //Dive Roll
                 {
-                    Debug.Log("Dive Roll");
+                    animator.Play("Dive Down");
                 }
                 else //Get Down Roll
                 {
-                    Debug.Log("Get Down Roll");
+                    animator.Play("Get Down");
                 }
             }
             else if(!Grounded && Rolling && RollingStorage) //Flip Over
             {
-                Debug.Log("Flip Over");
+                animator.Play("Flip Over");
             }
         }
         //Stop Rolling
@@ -202,18 +214,18 @@ public class PlayerController : MonoBehaviour
             {
                 if(rb.velocity.magnitude > 0.1) //Bounce Up
                 {
-                    Debug.Log("Bounce Up");
                     rb.AddForce(Vector3.up * 12, ForceMode.VelocityChange);
                     timings.RollStorageTimer = 0.1f;
+                    animator.Play("Flip Upright");
                 }
                 else //Get Up
                 {
-                    Debug.Log("Get Up");
+                    animator.Play("Get Up");
                 }
             }
             else if(!Grounded && !Rolling && RollingStorage) //Flip Upright
             {
-                Debug.Log("Flip Upright");
+                animator.Play("Flip Upright");
             }
         }
     }

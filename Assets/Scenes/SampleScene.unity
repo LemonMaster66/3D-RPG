@@ -136,7 +136,6 @@ GameObject:
   - component: {fileID: 90500727}
   - component: {fileID: 90500726}
   - component: {fileID: 90500730}
-  - component: {fileID: 90500731}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -238,19 +237,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &90500731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90500725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd78e53cc9607874dbfec1321eec2236, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  surface: 1
 --- !u!1 &403922675
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +249,6 @@ GameObject:
   - component: {fileID: 403922678}
   - component: {fileID: 403922677}
   - component: {fileID: 403922676}
-  - component: {fileID: 403922680}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -350,19 +335,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &403922680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 403922675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd78e53cc9607874dbfec1321eec2236, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  surface: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2085,7 +2057,6 @@ GameObject:
   - component: {fileID: 1383365668}
   - component: {fileID: 1383365667}
   - component: {fileID: 1383365666}
-  - component: {fileID: 1383365665}
   m_Layer: 0
   m_Name: Plane_1
   m_TagString: Untagged
@@ -2093,19 +2064,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1383365665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1383365664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd78e53cc9607874dbfec1321eec2236, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  surface: 0
 --- !u!64 &1383365666
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2471,6 +2429,7 @@ MonoBehaviour:
   turnSpeed: 0
   CamF: {x: 0, y: 0, z: 0}
   CamR: {x: 0, y: 0, z: 0}
+  Blend: 0
   Speed1: 200
   Speed2: 150
   MaxSpeed1: 30

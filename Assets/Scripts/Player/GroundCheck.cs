@@ -14,8 +14,11 @@ public class GroundCheck : MonoBehaviour
         playerController.SetGrounded(true);
         GroundObject = other.gameObject;
         Grounded = true;
-        playerSFX.LandAudio.Play();
-        animator.Play("Land");
+        if(!playerController.Rolling)
+        {
+            playerSFX.LandAudio.Play();
+            animator.Play("Land");
+        }
     }
 
     private void OnTriggerExit(Collider other)

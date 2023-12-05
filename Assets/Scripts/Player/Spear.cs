@@ -9,11 +9,11 @@ public class Spear : MonoBehaviour
 {
     private PlayerController playerController;
     private CinemachineFreeLook cinemachineFreeLook;
-    public CinemachineComposer cinemachineComposer;
+    private CinemachineComposer cinemachineComposer;
+    private SpearCollision spearCollision;
 
     public GameObject SpearPrefab;
     public GameObject SpearObject;
-    //public SpearCollision spearCollision;
 
     public float ThrowForce = 100;
     public float Gravity = 9.8f;
@@ -40,6 +40,7 @@ public class Spear : MonoBehaviour
         playerController    = FindObjectOfType<PlayerController>();
         cinemachineFreeLook = FindObjectOfType<CinemachineFreeLook>();
         cinemachineComposer = FindObjectOfType<CinemachineComposer>();
+        spearCollision      = GetComponentInChildren<SpearCollision>();
     }
 
     void FixedUpdate()
@@ -66,7 +67,7 @@ public class Spear : MonoBehaviour
             Quaternion toRotation = Quaternion.Euler(0f, targetAngle, 0f);
         }
 
-        CameraZoom = (float)Math.Round(CameraZoom, 2);
+        //CameraZoom = (float)Math.Round(CameraZoom, 2);
     }
 
 
@@ -78,6 +79,9 @@ public class Spear : MonoBehaviour
         Throwing = true;
         
         rb.velocity = playerController.Camera.forward*100;
+        Quaternion rotation = Quaternion.LookRotation(rb.velocity);
+        rotation *= Quaternion.Euler(90,0,0);
+        SpearObject.transform.rotation = rotation;
     }
 
 
@@ -124,5 +128,31 @@ public class Spear : MonoBehaviour
                 Debug.Log("Stop Reeling In");
             }
         }
+    }
+
+    public void CollideGround()
+    {
+        Collider2D collider = SpearObject.GetComponent<Collider2D>();
+        PlatformEffector2D platformEffector2D = SpearObject.GetComponentInChildren<PlatformEffector2D>();
+        platformEffector2D.enabled = true;
+
+        rb.isKinematic = true;
+        rb.velocity = new Vector2(0,0);
+        rb.freezeRotation = true;
+        spearCollision.collided = true;
+        collider.enabled = true;
+    }
+
+    public void CollideEnemy()
+    {
+        Collider2D collider = SpearObject.GetComponent<Collider2D>();
+
+        SpearObject.transform.parent = spearCollision.CollidedObject.transform;
+
+        rb.isKinematic = true;
+        rb.velocity = new Vector2(0,0);
+        rb.freezeRotation = true;
+        spearCollision.collided = true;
+        collider.enabled = true;
     }
 }

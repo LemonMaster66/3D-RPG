@@ -224,7 +224,7 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -276,7 +276,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: -3100369314251171874, guid: e3cb8d2e8bb5d0a4e81f562d7258aa80,
       type: 3}
-    m_Threshold: 0.33333334
+    m_Threshold: 0
     m_Position: {x: -0.849, y: 1.039}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -285,7 +285,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 2667949614841947897, guid: e3cb8d2e8bb5d0a4e81f562d7258aa80,
       type: 3}
-    m_Threshold: 0.6666667
+    m_Threshold: 1
     m_Position: {x: 0.168, y: 0.807}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -293,9 +293,9 @@ BlendTree:
     m_Mirror: 0
   m_BlendParameter: Blend
   m_BlendParameterY: Blend
-  m_MinThreshold: 0.33333334
-  m_MaxThreshold: 0.6666667
-  m_UseAutomaticThresholds: 1
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
 --- !u!1101 &4178609172954721884
@@ -312,9 +312,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.69680834
   m_TransitionOffset: 0
-  m_ExitTime: 0.5
+  m_ExitTime: 0.1808512
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0

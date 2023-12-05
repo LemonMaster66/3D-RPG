@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     public Vector3   CamF;
     public Vector3   CamR;
     public float     Blend;
+    private int      decimals = 2;
 
     [Header("Stored Values")]
     public int Speed1    = 200; //Walk     Speed
@@ -57,15 +58,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {   
-        #region Debug Stats
-            int decimals = 2;
-            PlayerVelocity = rb.velocity;
-            PlayerVelocity.x = (float)Math.Round(PlayerVelocity.x, decimals);
-            PlayerVelocity.y = (float)Math.Round(PlayerVelocity.y, decimals);
-            PlayerVelocity.z = (float)Math.Round(PlayerVelocity.z, decimals);
-            turnSpeed = (float)Math.Round(turnSpeed, decimals);
-        #endregion
-        //**********************************
         #region PerFrame Calculations
             CamF = Camera.forward;
             CamR = Camera.right;
@@ -92,14 +84,14 @@ public class PlayerController : MonoBehaviour
             // }
             
             //Speed Modifier
-            if  (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk Idle - BlendTree"))
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk Idle - BlendTree"))
             {
-                animator.speed = rb.velocity.magnitude/10;
+                animator.speed = rb.velocity.magnitude/20;
                 animator.speed = math.clamp(animator.speed, 0, 1);
-                Blend = Mathf.Sqrt(rb.velocity.x * rb.velocity.x + rb.velocity.y * rb.velocity.y)/10;
+                Blend = rb.velocity.magnitude/20;
                 animator.SetFloat("Blend", Blend, 0.1f, Time.deltaTime);
             }
-            else animator.speed = 1;
+            if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Walk Idle - BlendTree") || Blend < 0.01) animator.speed = 1;
 
             if(!Grounded)
             {
@@ -152,6 +144,15 @@ public class PlayerController : MonoBehaviour
 
         //Debug.DrawLine(transform.position, Camera.forward*100, Color.red, 0f);
         //Debug.DrawLine(transform.position, Camera.up*100, Color.green, 0f);
+
+        #region Debug Stats
+            PlayerVelocity   = rb.velocity;
+            PlayerVelocity.x = (float)Math.Round(PlayerVelocity.x, decimals);
+            PlayerVelocity.y = (float)Math.Round(PlayerVelocity.y, decimals);
+            PlayerVelocity.z = (float)Math.Round(PlayerVelocity.z, decimals);
+            turnSpeed        = (float)Math.Round(turnSpeed, decimals);
+            Blend            = (float)Math.Round(Blend, decimals);
+        #endregion
     }
 
     public void OnMove(InputAction.CallbackContext movementValue)
@@ -185,18 +186,15 @@ public class PlayerController : MonoBehaviour
                 spear.Aiming     = false;
                 spear.AimStorage = true;
             }
-            if(Grounded)
+            if(rb.velocity.magnitude > 0.1) //Dive Roll
             {
-                if(rb.velocity.magnitude > 0.1) //Dive Roll
-                {
-                    animator.Play("Dive Down");
-                }
-                else //Get Down Roll
-                {
-                    animator.Play("Get Down");
-                }
+                animator.Play("Dive Down");
             }
-            else if(!Grounded && Rolling && RollingStorage) //Flip Over
+            if (rb.velocity.magnitude > 0.1 && Grounded) //Get Down Roll
+            {
+                animator.Play("Get Down");
+            }
+            if(!Grounded && Rolling && RollingStorage) //Flip Over
             {
                 animator.Play("Flip Over");
             }

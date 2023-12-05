@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3407723307733567960}
   - component: {fileID: 3407723307733567963}
   - component: {fileID: 3407723307733567962}
+  - component: {fileID: 1994469234381085423}
   m_Layer: 6
   m_Name: SpearHead
   m_TagString: Untagged
@@ -92,11 +93,26 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3407723307733567964}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1994469234381085423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3407723307733567964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11c5cf3f05a097b4d9d0ae46b21a7009, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spear: {fileID: 0}
+  collided: 0
+  CollidedObject: {fileID: 0}
 --- !u!1 &3407723307755316728
 GameObject:
   m_ObjectHideFlags: 0

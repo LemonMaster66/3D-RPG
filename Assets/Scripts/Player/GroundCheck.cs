@@ -16,6 +16,7 @@ public class GroundCheck : MonoBehaviour
         Grounded = true;
         if(!playerController.Rolling)
         {
+            playerController.Blend = 0;
             playerSFX.LandAudio.Play();
             animator.Play("Land");
         }

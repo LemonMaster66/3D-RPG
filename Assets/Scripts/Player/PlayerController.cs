@@ -76,13 +76,7 @@ public class PlayerController : MonoBehaviour
             Quaternion toRotation = Quaternion.Euler(0f, targetAngle, 0f);
         #endregion
         //**********************************
-        #region Animations
-            // if(Grounded && !Rolling && !RollingStorage && !animator.GetCurrentAnimatorStateInfo(0).IsName("Land"))
-            // {
-            //     if (rb.velocity.magnitude > 0.1)      animator.Play("Walk");
-            //     else if (rb.velocity.magnitude < 0.1) animator.Play("Idle");
-            // }
-            
+        #region Animations        
             //Speed Modifier
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk Idle - BlendTree"))
             {
@@ -186,18 +180,11 @@ public class PlayerController : MonoBehaviour
                 spear.Aiming     = false;
                 spear.AimStorage = true;
             }
-            if(rb.velocity.magnitude > 0.1) //Dive Roll
-            {
-                animator.Play("Dive Down");
-            }
-            if (rb.velocity.magnitude > 0.1 && Grounded) //Get Down Roll
-            {
-                animator.Play("Get Down");
-            }
-            if(!Grounded && Rolling && RollingStorage) //Flip Over
-            {
-                animator.Play("Flip Over");
-            }
+            if(spear.HoldingAim && spear.Collided) spear.Reeling = false;
+
+            if(rb.velocity.magnitude > 0.1 && Grounded) animator.Play("Dive Down");
+            else if (rb.velocity.magnitude < 0.1 && Grounded) animator.Play("Get Down");
+            else if(!Grounded && Rolling && RollingStorage) animator.Play("Flip Over");
         }
         //Stop Rolling
         else if(context.canceled)
@@ -208,6 +195,7 @@ public class PlayerController : MonoBehaviour
                 spear.Aiming     = true;
                 spear.AimStorage = false;
             }
+            if(spear.Reeling) spear.Reeling = false;
             if(Grounded)
             {
                 if(rb.velocity.magnitude > 0.1) //Bounce Up

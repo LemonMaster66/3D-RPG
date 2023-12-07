@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SpearCollision : MonoBehaviour
 {
-    public Spear spear;
-    public bool collided = false;
+    public Spear      spear;
+    public bool       collided = false;
     public GameObject CollidedObject;
 
     void Awake()
@@ -19,6 +19,6 @@ public class SpearCollision : MonoBehaviour
         CollidedObject = other.gameObject;
 
         if (other.tag == "Enemy") spear.CollideEnemy();
-        else spear.CollideGround();
+        else                      spear.CollideGround();
     }
 }

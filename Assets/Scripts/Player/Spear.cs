@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -88,7 +87,7 @@ public class Spear : MonoBehaviour
         
         rb.velocity = playerController.Camera.forward*ThrowForce;
         Quaternion rotation = Quaternion.LookRotation(rb.velocity);
-        rotation *= Quaternion.Euler(90,0,0);
+        rotation *= Quaternion.Euler(90,90,0);
         SpearObject.transform.rotation = rotation;
     }
 
@@ -121,7 +120,7 @@ public class Spear : MonoBehaviour
     public void ThrowingCalculations()
     {
         Quaternion rotation = Quaternion.LookRotation(rb.velocity);
-        rotation *= Quaternion.Euler(90,0,0);
+        rotation *= Quaternion.Euler(-90,90,0);
         SpearObject.transform.rotation = rotation;
         rb.AddForce(Physics.gravity * Gravity/30);
     }
@@ -134,7 +133,7 @@ public class Spear : MonoBehaviour
                                      (SpearObject.transform.position.y - transform.position.y-2.5f) * (ThrowForce/150) *-1 , 
                                      (SpearObject.transform.position.z - transform.position.z) * (ThrowForce/150) *-1 );
         Quaternion rotation = Quaternion.LookRotation(rb.velocity);
-        rotation *= Quaternion.Euler(-90,0,0);
+        rotation *= Quaternion.Euler(-90,-90,0);
         SpearObject.transform.rotation = rotation;
     }
 

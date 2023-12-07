@@ -37,6 +37,24 @@ ModelImporter:
       74: -8312538846858333772
     second: T-Pose
   - first:
+      74: 390517835128762412
+    second: Spear Aim In Mix
+  - first:
+      74: -6512795658330607354
+    second: Spear Aim Out Mix
+  - first:
+      74: 1533421511094922732
+    second: Spear Throw
+  - first:
+      74: 8811599667462163389
+    second: Spear Recall
+  - first:
+      74: -1162072519777429835
+    second: Spear Catch
+  - first:
+      74: 151250392709002051
+    second: Wooden Base|Wooden BaseAction
+  - first:
       74: -148110381826341833
     second: Pumble Rig|Dive Down
   - first:
@@ -64,22 +82,54 @@ ModelImporter:
       74: -892745406704852301
     second: Pumble Rig|Land
   - first:
+      74: 2631305826511284812
+    second: Pumble Rig|Pumble RigAction
+  - first:
+      74: -6524114906983024797
+    second: Pumble Rig|Pumble RigAction.001
+  - first:
+      74: 3091775138519781665
+    second: Pumble Rig|Pumble RigAction.002
+  - first:
+      74: 7496939669059804307
+    second: Pumble Rig|Pumble RigAction.003
+  - first:
+      74: -4921200352179989566
+    second: Pumble Rig|Pumble RigAction.004
+  - first:
+      74: -6997761840232641316
+    second: Pumble Rig|Pumble RigAction.005
+  - first:
+      74: 2416246966006011658
+    second: Pumble Rig|Pumble RigAction.006
+  - first:
+      74: 5551204399098817653
+    second: Pumble Rig|Pumble RigAction.007
+  - first:
+      74: 3761633223785121350
+    second: Pumble Rig|Pumble RigAction.008
+  - first:
+      74: 2026590240575150332
+    second: Pumble Rig|Pumble RigAction.009
+  - first:
+      74: -8270840241782926350
+    second: Pumble Rig|Pumble RigAction.010
+  - first:
+      74: 3587128864752073030
+    second: Pumble Rig|Pumble RigAction.011
+  - first:
       74: -6789534493651435641
     second: Pumble Rig|T-Pose
   - first:
       74: 1182983123156724998
     second: Pumble Rig|Walk
-  externalObjects:
   - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Body
-    second: {fileID: 2100000, guid: e080fb15d29460e4f96d4586ffdce6c5, type: 2}
+      74: -3083392749555630484
+    second: Pumble Rig|Wooden BaseAction
   - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Hand
-    second: {fileID: 2100000, guid: a3b8296e5963f5a4bb19e84eae81effb, type: 2}
+      74: 6787113824019926907
+    second: Face_Mouth|Wooden BaseAction
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -88,7 +138,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 0
+    resampleCurves: 1
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
@@ -100,7 +150,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 0
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -113,15 +163,15 @@ ModelImporter:
       takeName: Walk
       internalID: 0
       firstFrame: 0
-      lastFrame: 0.5
+      lastFrame: 45
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
+      loopTime: 0
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -142,15 +192,15 @@ ModelImporter:
       takeName: Idle
       internalID: 0
       firstFrame: 0
-      lastFrame: 2
+      lastFrame: 59
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
+      loopTime: 0
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -171,7 +221,7 @@ ModelImporter:
       takeName: Jump
       internalID: 0
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -200,7 +250,7 @@ ModelImporter:
       takeName: Fall
       internalID: 0
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -229,7 +279,7 @@ ModelImporter:
       takeName: Land
       internalID: 0
       firstFrame: 0
-      lastFrame: 0.5
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -258,7 +308,7 @@ ModelImporter:
       takeName: Get Down
       internalID: 0
       firstFrame: 0
-      lastFrame: 0.33
+      lastFrame: 10
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -287,7 +337,7 @@ ModelImporter:
       takeName: Get Up
       internalID: 0
       firstFrame: 0
-      lastFrame: 0.4
+      lastFrame: 12
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -316,7 +366,7 @@ ModelImporter:
       takeName: Dive Down
       internalID: 0
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 22
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -345,7 +395,7 @@ ModelImporter:
       takeName: Flip Upright
       internalID: 0
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -374,7 +424,7 @@ ModelImporter:
       takeName: Flip Over
       internalID: 0
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -403,7 +453,152 @@ ModelImporter:
       takeName: T-Pose
       internalID: 0
       firstFrame: 0
-      lastFrame: 0
+      lastFrame: 9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Spear Aim In Mix
+      takeName: Spear Aim In Mix
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 37
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Spear Aim Out Mix
+      takeName: Spear Aim Out Mix
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 19
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Spear Throw
+      takeName: Spear Throw
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 19
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Spear Recall
+      takeName: Spear Recall
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 25
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Spear Catch
+      takeName: Spear Catch
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 14
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

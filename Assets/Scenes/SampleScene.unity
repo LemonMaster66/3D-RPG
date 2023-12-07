@@ -3096,7 +3096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63714b91d0c4f3f4e973eeedc4ce864a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpearPrefab: {fileID: 3407723307755316728, guid: 555f16336a721574da6536af5359800e,
+  SpearPrefab: {fileID: 5618941833572969777, guid: 44af996879b3c614fae3540f3e641611,
     type: 3}
   SpearObject: {fileID: 0}
   ThrowForce: 120

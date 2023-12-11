@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
     public float Gravity = 100;
 
     [Header("Properties")]
+    public int Health;
+    private int MaxHealth = 5;
     public float AgroStart;
     public float AgroEnd;
     public float AttackRange;
@@ -25,6 +27,8 @@ public class Enemy : MonoBehaviour
     [Header("States")]
     public bool Grounded = true;
     public bool Agro = false;
+    public bool Dead = false;
+    
 
     [Header("Turning Physics")]
     [HideInInspector] public float movementX;
@@ -43,7 +47,11 @@ public class Enemy : MonoBehaviour
         rb       = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
 
+        //Component Values
         rb.useGravity = false;
+
+        //Property Values
+        Health = MaxHealth;
     }
 
 
@@ -72,7 +80,7 @@ public class Enemy : MonoBehaviour
         #endregion
         //**********************************
 
-        if(timings.EnemyAttackDuration == 0 )
+        if(timings.EnemyAttackDuration == 0 && !Dead)
         {
             if (Agro) 
             {
@@ -89,7 +97,7 @@ public class Enemy : MonoBehaviour
             else if(Vector3.Distance(transform.position, playerController.gameObject.transform.position) < AgroStart) StartAgro();
         }
 
-        if(rb.velocity.magnitude > 0.5 && Grounded) transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 0.25f);
+        if(rb.velocity.magnitude > 0.5 && Grounded && !Dead) transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 0.25f);
         rb.AddForce(movement * Speed);
 
         #region Debug Stats
@@ -115,6 +123,21 @@ public class Enemy : MonoBehaviour
         timings.EnemyAttackDuration = 1;
         movement = new Vector3(0,0,0);
         playerController.TakeDamage(this.gameObject);
+    }
+
+    public void Die()
+    {
+        Health--;
+        Dead = true;
+
+        rb.freezeRotation = true;
+
+        movement = new Vector3(0,0,0);
+        Vector3 directionToTarget = transform.position - playerController.transform.position;
+        rb.velocity = directionToTarget.normalized;
+        rb.velocity = new Vector3(rb.velocity.x*100, rb.velocity.y*20+5, rb.velocity.z*100);
+        //transform.rotation = Quaternion.LookRotation(directionToTarget*-1, Vector3.up);
+        //transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 
 }

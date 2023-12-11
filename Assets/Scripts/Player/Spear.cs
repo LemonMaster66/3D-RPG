@@ -92,13 +92,6 @@ public class Spear : MonoBehaviour
         BlendSmoothness = 0.2f;
     }
 
-    // public void AimOutSpear()
-    // {
-    //     Aiming = false;
-    //     animator.Play("Spear Aim Out Mix");
-    // }
-
-
     public void ThrowSpear()
     {
         SpearObject = Instantiate(SpearPrefab, transform.position + new Vector3(0, 2.5f, 0), Quaternion.identity);
@@ -244,5 +237,7 @@ public class Spear : MonoBehaviour
 
         Throwing = false;
         Collided = true;
+
+        spearCollision.CollidedObject.GetComponent<Enemy>().Die();
     }
 }

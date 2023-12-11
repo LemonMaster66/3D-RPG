@@ -1,0 +1,209 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Arm Mask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Arm L
+    m_Weight: 0
+  - m_Path: Arm R
+    m_Weight: 0
+  - m_Path: Hand L
+    m_Weight: 0
+  - m_Path: Hand R
+    m_Weight: 0
+  - m_Path: Leg L
+    m_Weight: 0
+  - m_Path: Leg R
+    m_Weight: 0
+  - m_Path: Pumble Rig
+    m_Weight: 1
+  - m_Path: Pumble Rig/Arm Upper.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Arm Upper.L/Arm Lower.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Arm Upper.L/Arm Lower.L/Arm Lower.L_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Arm Upper.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Arm Upper.R/Arm Lower.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Arm Upper.R/Arm Lower.R/Arm Lower.R_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Bone
+    m_Weight: 1
+  - m_Path: Pumble Rig/Bone/Bone_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Bone/Wooden Base
+    m_Weight: 1
+  - m_Path: Pumble Rig/Bone/Wooden Base/End Cap
+    m_Weight: 1
+  - m_Path: Pumble Rig/Bone/Wooden Base/Spear Head
+    m_Weight: 1
+  - m_Path: Pumble Rig/Bone/Wooden Base/Spear Head/Rope
+    m_Weight: 1
+  - m_Path: Pumble Rig/Bone/Wooden Base/Spear Head/Wooden Piece
+    m_Weight: 1
+  - m_Path: Pumble Rig/Bone/Wooden Base/Thread Loops
+    m_Weight: 1
+  - m_Path: Pumble Rig/Bone/Wooden Base/Thread Loose
+    m_Weight: 1
+  - m_Path: Pumble Rig/Elbow IK.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Elbow IK.L/Elbow IK.L_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Elbow IK.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Elbow IK.R/Elbow IK.R_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 1-0.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 1-0.L/Finger 1-1.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 1-0.L/Finger 1-1.L/Finger 1-2.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 1-0.L/Finger 1-1.L/Finger 1-2.L/Finger
+      1-3.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 1-0.L/Finger 1-1.L/Finger 1-2.L/Finger
+      1-3.L/Finger 1-3.L_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 2-0.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 2-0.L/Finger 2-1.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 2-0.L/Finger 2-1.L/Finger 2-2.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 2-0.L/Finger 2-1.L/Finger 2-2.L/Finger
+      2-3.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 2-0.L/Finger 2-1.L/Finger 2-2.L/Finger
+      2-3.L/Finger 2-3.L_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 3-0.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 3-0.L/Finger 3-1.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 3-0.L/Finger 3-1.L/Finger 3-2.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 3-0.L/Finger 3-1.L/Finger 3-2.L/Finger
+      3-3.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Finger 3-0.L/Finger 3-1.L/Finger 3-2.L/Finger
+      3-3.L/Finger 3-3.L_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Thumb Finger 0-0.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Thumb Finger 0-0.L/Thumb Finger 0-1.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Thumb Finger 0-0.L/Thumb Finger 0-1.L/Thumb
+      Finger 0-2.L
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.L/Hand Base.L/Thumb Finger 0-0.L/Thumb Finger 0-1.L/Thumb
+      Finger 0-2.L/Thumb Finger 0-2.L_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 1-0.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 1-0.R/Finger 1-1.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 1-0.R/Finger 1-1.R/Finger 1-2.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 1-0.R/Finger 1-1.R/Finger 1-2.R/Finger
+      1-3.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 1-0.R/Finger 1-1.R/Finger 1-2.R/Finger
+      1-3.R/Finger 1-3.R_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 2-0.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 2-0.R/Finger 2-1.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 2-0.R/Finger 2-1.R/Finger 2-2.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 2-0.R/Finger 2-1.R/Finger 2-2.R/Finger
+      2-3.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 2-0.R/Finger 2-1.R/Finger 2-2.R/Finger
+      2-3.R/Finger 2-3.R_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 3-0.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 3-0.R/Finger 3-1.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 3-0.R/Finger 3-1.R/Finger 3-2.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 3-0.R/Finger 3-1.R/Finger 3-2.R/Finger
+      3-3.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Finger 3-0.R/Finger 3-1.R/Finger 3-2.R/Finger
+      3-3.R/Finger 3-3.R_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Thumb Finger 0-0.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Thumb Finger 0-0.R/Thumb Finger 0-1.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Thumb Finger 0-0.R/Thumb Finger 0-1.R/Thumb
+      Finger 0-2.R
+    m_Weight: 1
+  - m_Path: Pumble Rig/Hand IK.R/Hand Base.R/Thumb Finger 0-0.R/Thumb Finger 0-1.R/Thumb
+      Finger 0-2.R/Thumb Finger 0-2.R_end
+    m_Weight: 1
+  - m_Path: Pumble Rig/Leg_IK.L
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_IK.L/Foot.L
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_IK.L/Foot.L/Foot.L_end
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_IK.R
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_IK.R/Foot.R
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_IK.R/Foot.R/Foot.R_end
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_Pole.L
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_Pole.L/Leg_Pole.L_end
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_Pole.R
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_Pole.R/Leg_Pole.R_end
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_Upper.L
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_Upper.L/Leg_Lower.L
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_Upper.L/Leg_Lower.L/Leg_Lower.L_end
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_Upper.R
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_Upper.R/Leg_Lower.R
+    m_Weight: 0
+  - m_Path: Pumble Rig/Leg_Upper.R/Leg_Lower.R/Leg_Lower.R_end
+    m_Weight: 0
+  - m_Path: Pumble Rig/Main Body
+    m_Weight: 0
+  - m_Path: Pumble Rig/Main Body/Body 1
+    m_Weight: 0
+  - m_Path: Pumble Rig/Main Body/Face_Eye_L
+    m_Weight: 0
+  - m_Path: Pumble Rig/Main Body/Face_Eye_R
+    m_Weight: 0
+  - m_Path: Pumble Rig/Main Body/Face_Mouth
+    m_Weight: 0
+  - m_Path: Pumble Rig/Main Body/Main Body_end
+    m_Weight: 0

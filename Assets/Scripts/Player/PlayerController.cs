@@ -1,63 +1,94 @@
 using System;
-using System.Collections;
-using Unity.Collections;
-using Unity.Mathematics;
+using UnityEditor.ProjectWindowCallback;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Rolling Physics")]
-    public float Speed = 50;
-    public float MaxSpeed = 80;
-    public float JumpForce = 8;
-    public float Gravity = 100;
+    [Header("Properties")]
+    public int  Health;
+    private int MaxHealth = 5;
+
+    [Header("Movement Physics")]
+    public float Speed      = 50;
+    public float MaxSpeed   = 80;
+    public float JumpForce  = 8;
+    public float Gravity    = 100;
 
     [Header("States")]
     public bool Grounded       = true;
     public bool Rolling        = false;
     public bool RollingStorage = false;
+    public bool Stunned        = false;
 
     [Header("Turning Physics")]
     public bool DynamicTurningSpeeds = true;
     public float turnSpeedFactor;
-    [HideInInspector] public float movementX;
-    [HideInInspector] public float movementY;
+    [HideInInspector] public Vector3 movement;
+    [HideInInspector] public float   movementX;
+    [HideInInspector] public float   movementY;
 
     [Header("Debug Stats")]
-    [HideInInspector] public Rigidbody rb;
-    public Transform Camera;
-    public Animator  animator;
-    private Timers   timings;
-    private Spear    spear;
-    public Vector3   PlayerVelocity;
-    public float     ForwardVelocityMagnitude;
-    public float     turnSpeed;
-    public Vector3   CamF;
-    public Vector3   CamR;
-    public float     Blend;
-    private int      decimals = 2;
+    public Vector3     PlayerVelocity;
+    private float      ForwardVelocityMagnitude;
+    public float       VelocityMagnitudeXZ;
+    private float      turnSpeed;
+    public float       Blend;
+    public int         Speed1    = 200; //Walk     Speed
+    public int         Speed2    = 150; //Roll     Speed
+    public int         MaxSpeed1 = 20;  //Walk Max Speed
+    public int         MaxSpeed2 = 200; //Roll Max Speed
+    [HideInInspector]  public Vector3 CamF;
+    [HideInInspector]  public Vector3 CamR;
 
-    [Header("Stored Values")]
-    public int Speed1    = 200; //Walk     Speed
-    public int Speed2    = 150; //Roll     Speed
-    public int MaxSpeed1 = 20;  //Walk Max Speed
-    public int MaxSpeed2 = 200; //Roll Max Speed
+    #region Script / Component Reference
+        private PlayerSFX        playerSFX;
+        private AnimationEvents  animationEvents;
+        private Timers           timings;
+        private Spear            spear;
+
+        [HideInInspector] public Rigidbody  rb;
+        [HideInInspector] public Transform  Camera;
+        [HideInInspector] private Animator  animator;
+    #endregion
 
 
     void Awake()
     {
-        timings  = GetComponent<Timers>();
-        rb       = GetComponent<Rigidbody>();
-        spear    = GetComponent<Spear>();
-        animator = GetComponentInChildren<Animator>();
-        Camera   = GameObject.Find("Camera").transform;
+        //Assign Components
+        timings         = GetComponent<Timers>();
+        rb              = GetComponent<Rigidbody>();
+        spear           = GetComponent<Spear>();
+        animator        = GetComponentInChildren<Animator>();
+        animationEvents = FindObjectOfType<AnimationEvents>();
+        playerSFX       = FindObjectOfType<PlayerSFX>();
+        Camera          = GameObject.Find("Camera").transform;
 
+        //Component Values
         rb.useGravity = false;
+
+        //Property Values
+        Health = MaxHealth;
     }
 
     void FixedUpdate()
-    {   
+    {
+        #region Physics Stuff
+            //Extra Gravity
+            rb.AddForce(Physics.gravity * Gravity /10);
+
+            //max speed
+            if (rb.velocity.magnitude > MaxSpeed)
+            {
+                // Get the velocity direction
+                Vector3 newVelocity = rb.velocity;
+                newVelocity.y = 0f;
+                newVelocity = Vector3.ClampMagnitude(newVelocity, MaxSpeed);
+                newVelocity.y = rb.velocity.y;
+                rb.velocity = newVelocity;
+            }
+        #endregion
+        //**********************************
         #region PerFrame Calculations
             CamF = Camera.forward;
             CamR = Camera.right;
@@ -69,25 +100,27 @@ public class PlayerController : MonoBehaviour
             // Calculate the Forward velocity magnitude
             Vector3 ForwardVelocity = Vector3.Project(rb.velocity, CamF);
             ForwardVelocityMagnitude = ForwardVelocity.magnitude;
-            ForwardVelocityMagnitude = (float)System.Math.Round(ForwardVelocityMagnitude, decimals);
+            ForwardVelocityMagnitude = (float)Math.Round(ForwardVelocityMagnitude, 2);
+
+            VelocityMagnitudeXZ = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
 
             // Calculate the Forward Angle
             float targetAngle = Mathf.Atan2(rb.velocity.x, rb.velocity.z) * Mathf.Rad2Deg;
             Quaternion toRotation = Quaternion.Euler(0f, targetAngle, 0f);
         #endregion
         //**********************************
-        #region Animations        
+        #region Animations
             //Speed Modifier
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk Idle - BlendTree"))
             {
-                animator.speed = rb.velocity.magnitude/20;
-                animator.speed = math.clamp(animator.speed, 0, 1);
-                Blend = rb.velocity.magnitude/20;
+                animator.speed = VelocityMagnitudeXZ/20;
+                animator.speed = Math.Clamp(animator.speed, 0, 1);
+                Blend = VelocityMagnitudeXZ/20;
                 animator.SetFloat("Blend", Blend, 0.1f, Time.deltaTime);
             }
             if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Walk Idle - BlendTree") || Blend < 0.01) animator.speed = 1;
 
-            if(!Grounded)
+            if(!Grounded && !Stunned)
             {
                 if(rb.velocity.y > 0 && !Rolling && !RollingStorage) animator.Play("Jump");
                 else if(rb.velocity.y < 0 && !Rolling && !RollingStorage) animator.Play("Fall");
@@ -95,6 +128,7 @@ public class PlayerController : MonoBehaviour
         #endregion
         //**********************************
 
+        if(Stunned) return;
 
         //Walking
         if(!Rolling && Grounded && timings.RollStorageTimer == 0)
@@ -107,7 +141,7 @@ public class PlayerController : MonoBehaviour
                 RollingStorage = false;
             }
             rb.freezeRotation = true;
-            if(rb.velocity.magnitude > 0.5) transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 0.25f);
+            if(VelocityMagnitudeXZ > 0.5) transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 0.25f);
         }
 
         //Roll Storage Period
@@ -117,56 +151,42 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 0.06f);
         }
 
-        //Extra Gravity
-        rb.AddForce(Physics.gravity * Gravity /10);
-
-        //max speed
-        if (rb.velocity.magnitude > MaxSpeed)
-        {
-            // Get the velocity direction
-            Vector3 newVelocity = rb.velocity;
-            newVelocity.y = 0f;
-            newVelocity = Vector3.ClampMagnitude(newVelocity, MaxSpeed);
-            newVelocity.y = rb.velocity.y;
-            rb.velocity = newVelocity;
-        }
-
-
-        Vector3 movement = (CamF * movementY + CamR * movementX).normalized;
+        movement = (CamF * movementY + CamR * movementX).normalized;
         turnSpeed = turnSpeedFactor * ForwardVelocityMagnitude;
         rb.AddForce(movement * Speed + CamR * movementX * turnSpeed);
 
-        //Debug.DrawLine(transform.position, Camera.forward*100, Color.red, 0f);
-        //Debug.DrawLine(transform.position, Camera.up*100, Color.green, 0f);
-
         #region Debug Stats
-            PlayerVelocity   = rb.velocity;
-            PlayerVelocity.x = (float)Math.Round(PlayerVelocity.x, decimals);
-            PlayerVelocity.y = (float)Math.Round(PlayerVelocity.y, decimals);
-            PlayerVelocity.z = (float)Math.Round(PlayerVelocity.z, decimals);
-            turnSpeed        = (float)Math.Round(turnSpeed, decimals);
-            Blend            = (float)Math.Round(Blend, decimals);
+            PlayerVelocity      = rb.velocity;
+            PlayerVelocity.x    = (float)Math.Round(PlayerVelocity.x, 2);
+            PlayerVelocity.y    = (float)Math.Round(PlayerVelocity.y, 2);
+            PlayerVelocity.z    = (float)Math.Round(PlayerVelocity.z, 2);
+            VelocityMagnitudeXZ = (float)Math.Round(VelocityMagnitudeXZ, 2);
+            turnSpeed           = (float)Math.Round(turnSpeed, 2);
+            Blend               = (float)Math.Round(Blend, 2);
         #endregion
     }
 
+    //***********************************************************************
+    //***********************************************************************
+    //Movement Functions
     public void OnMove(InputAction.CallbackContext movementValue)
     {  
         Vector2 inputVector = movementValue.ReadValue<Vector2>();
         movementX = inputVector.x;
         movementY = inputVector.y;
     }
-
     public void OnJump(InputAction.CallbackContext context)
     {
-        if(context.started && Grounded)
+        if(context.started && Grounded && !Stunned)
         {
             rb.AddForce(Vector3.up * JumpForce, ForceMode.VelocityChange);
-            //JumpAudio.Play();
+            playerSFX.JumpAudio.Play();
         }
     }
-
     public void OnRoll(InputAction.CallbackContext context)
     {
+        if(Stunned) return;
+
         //Start Rolling
         if(context.started)
         {
@@ -179,11 +199,14 @@ public class PlayerController : MonoBehaviour
             {
                 spear.Aiming     = false;
                 spear.AimStorage = true;
+                animator.Play("Spear Aim Out Mix");
+                spear.BlendTarget = 0;
+                spear.BlendSmoothness = 0.5f;
             }
             if(spear.HoldingAim && spear.Collided) spear.Reeling = false;
 
-            if(rb.velocity.magnitude > 0.1 && Grounded) animator.Play("Dive Down");
-            else if (rb.velocity.magnitude < 0.1 && Grounded) animator.Play("Get Down");
+            if(VelocityMagnitudeXZ > 0.1 && Grounded) animator.Play("Dive Down");
+            else if (VelocityMagnitudeXZ < 0.1 && Grounded) animator.Play("Get Down");
             else if(!Grounded && Rolling && RollingStorage) animator.Play("Flip Over");
         }
         //Stop Rolling
@@ -194,11 +217,14 @@ public class PlayerController : MonoBehaviour
             {
                 spear.Aiming     = true;
                 spear.AimStorage = false;
+                animator.Play("Spear Aim In Mix");
+                spear.BlendTarget = 1;
+                spear.BlendSmoothness = 0.2f;
             }
             if(spear.Reeling) spear.Reeling = false;
             if(Grounded)
             {
-                if(rb.velocity.magnitude > 0.1) //Bounce Up
+                if(VelocityMagnitudeXZ > 0.1) //Bounce Up
                 {
                     rb.AddForce(Vector3.up * 12, ForceMode.VelocityChange);
                     timings.RollStorageTimer = 0.1f;
@@ -215,9 +241,34 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
     public void SetGrounded(bool state) 
     {
         Grounded = state;
+    }
+
+
+    //***********************************************************************
+    //***********************************************************************
+    //Other Functions
+    public void TakeDamage(GameObject Attacker)
+    {
+        Health--;
+
+        Stunned = true;
+        Rolling = false;
+        RollingStorage = false;
+        spear.Aiming = false;
+        spear.AimStorage = false;
+        spear.HoldingAim = false;
+
+        rb.freezeRotation = true;
+
+        Vector3 directionToTarget = transform.position - Attacker.transform.position;
+        rb.velocity = directionToTarget.normalized;
+        rb.velocity = new Vector3(rb.velocity.x*20, rb.velocity.y*20+10, rb.velocity.z*20);
+        transform.rotation = Quaternion.LookRotation(directionToTarget*-1, Vector3.up);
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+
+        animator.Play("T-Pose");
     }
 }

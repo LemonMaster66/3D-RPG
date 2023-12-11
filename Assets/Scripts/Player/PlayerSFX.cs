@@ -12,9 +12,6 @@ public class PlayerSFX : MonoBehaviour
 
     [Header("Main Player Physics Sounds")]
     public AudioSource Roll;
-    public AudioSource Step;
-    public AudioClip[] StepLR;
-
     public AudioSource JumpAudio;
     public AudioSource LandAudio;
     
@@ -37,7 +34,7 @@ public class PlayerSFX : MonoBehaviour
         {
             if(playerController.Rolling)
             {
-                Roll.volume = playerController.rb.velocity.magnitude/VolumeDivide;
+                Roll.volume = playerController.rb.velocity.magnitude/100;
             }
         }
         else
@@ -47,22 +44,4 @@ public class PlayerSFX : MonoBehaviour
             Roll.volume = 0;
         }
     }
-
-    public void StepSFX(int Leg)
-    {
-        Step.clip = StepLR[Leg];
-        Step.Play();
-    }
-
-    // //Surface Type Beat
-    // public void SurfaceFinder()
-    // {
-    //     if(groundCheck.GroundObject == null) return;
-    //     SurfaceType surfaceType = groundCheck.GroundObject.GetComponent<SurfaceType>();
-    //     if     (surfaceType.surface == SurfaceType.Surface.Default) SurfaceAudio = "Default";
-    //     else if(surfaceType.surface == SurfaceType.Surface.Dirt)    SurfaceAudio = "Dirt";
-    //     else if(surfaceType.surface == SurfaceType.Surface.Grass)   SurfaceAudio = "Grass";
-    //     else if(surfaceType.surface == SurfaceType.Surface.Stone)   SurfaceAudio = "Stone";
-    //     else SurfaceAudio = "Default";
-    // }
 }

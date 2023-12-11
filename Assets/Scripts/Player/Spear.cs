@@ -20,6 +20,9 @@ public class Spear : MonoBehaviour
 
     private float CameraZoom = 0;
     private float CameraScreenY = 0;
+    public float AnimationBlend = 0;
+    public float BlendTarget = 0;
+    public float BlendSmoothness;
 
     [Header("States")]
     public bool FoundSpear = true;
@@ -33,12 +36,14 @@ public class Spear : MonoBehaviour
     public bool Collided   = false;
 
     private Rigidbody rb;
+    private Animator animator;
     public Vector3 throwDirection;
     public GameObject collidedObject;
 
     void Start()
     {
         playerController    = FindObjectOfType<PlayerController>();
+        animator            = GetComponentInChildren<Animator>();
         cinemachineFreeLook = FindObjectOfType<CinemachineFreeLook>();
         cinemachineComposer = FindObjectOfType<CinemachineComposer>();
     }
@@ -62,15 +67,36 @@ public class Spear : MonoBehaviour
             if(!playerController.Rolling && playerController.MaxSpeed == playerController.MaxSpeed1-10) playerController.MaxSpeed = playerController.MaxSpeed1;
         }
 
+        if(animator.GetLayerWeight(1) != BlendTarget)
+        {
+            animator.SetLayerWeight(1, Mathf.SmoothDamp(animator.GetLayerWeight(1), BlendTarget, ref AnimationBlend, BlendSmoothness));
+        }
+
         if(Throwing)  ThrowingCalculations();
         if(Recalling) RecallingCalculations();
         if(Reeling)   ReelingCalculations();
+
+        AnimationBlend = (float)Math.Round(AnimationBlend, 2);
     }
 
 
     //****************************************************************
     //****************************************************************
     //****************************************************************
+
+    public void AimInSpear()
+    {
+        Aiming = true;
+        animator.Play("Spear Aim In Mix");
+        BlendTarget = 1;
+        BlendSmoothness = 0.2f;
+    }
+
+    // public void AimOutSpear()
+    // {
+    //     Aiming = false;
+    //     animator.Play("Spear Aim Out Mix");
+    // }
 
 
     public void ThrowSpear()
@@ -89,6 +115,11 @@ public class Spear : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(rb.velocity);
         rotation *= Quaternion.Euler(90,90,0);
         SpearObject.transform.rotation = rotation;
+
+        animator.Play("Spear Throw");
+        animator.SetLayerWeight(1, 1);
+        BlendTarget = 0;
+        BlendSmoothness = 0.5f;
     }
 
     public void RecallSpear()
@@ -100,6 +131,10 @@ public class Spear : MonoBehaviour
         rb.isKinematic = false;
         rb.freezeRotation = false;
         Gravity = 0;
+
+        animator.Play("Spear Recall");
+        BlendTarget = 1;
+        BlendSmoothness = 0.05f;
     }
 
     public void ResetSpear()
@@ -110,8 +145,21 @@ public class Spear : MonoBehaviour
         Collided  = false;
         Throwing  = false;
         Reeling   = false;
-        if(HoldingAim && !playerController.Rolling) Aiming = true;
+        if(HoldingAim && !playerController.Rolling)
+        {
+            Aiming = true;
+            animator.Play("Spear Aim In Mix");
+            BlendTarget = 1;
+            BlendSmoothness = 0.3f;
+        }
         else if(HoldingAim && playerController.Rolling) AimStorage = true;
+        else
+        {
+            animator.Play("Spear Catch");
+            animator.SetLayerWeight(1, 1);
+            BlendTarget = 0;
+            BlendSmoothness = 0.5f;
+        }
     }
 
     //****************************************************************
@@ -120,7 +168,7 @@ public class Spear : MonoBehaviour
     public void ThrowingCalculations()
     {
         Quaternion rotation = Quaternion.LookRotation(rb.velocity);
-        rotation *= Quaternion.Euler(-90,90,0);
+        rotation *= Quaternion.Euler(0,90,0);
         SpearObject.transform.rotation = rotation;
         rb.AddForce(Physics.gravity * Gravity/30);
     }
@@ -154,11 +202,11 @@ public class Spear : MonoBehaviour
 
     public void OnThrow(InputAction.CallbackContext context)
     {
-        if(!FoundSpear) return;
+        if(!FoundSpear || playerController.Stunned) return;
         if(context.started) //Press / Hold Button
         {
             HoldingAim = true;
-            if(!playerController.Rolling && HasSpear) Aiming = true;                     //Aim Spear
+            if(!playerController.Rolling && HasSpear) AimInSpear();                      //Aim Spear
             else if(!playerController.Rolling && !HasSpear) RecallSpear();               //Recall Spear
             else if(playerController.Rolling && HasSpear) AimStorage = true;             //Store Spear Aim
             else if(playerController.Rolling && !HasSpear && Collided) Reeling = true;   //Reel In
@@ -177,8 +225,6 @@ public class Spear : MonoBehaviour
 
     public void CollideGround()
     {
-        Debug.Log("Landed");
-
         spearCollision.collided = true;
         rb.velocity = new Vector2(0,0);
         rb.freezeRotation = true;

@@ -195,7 +195,7 @@ public class Spear : MonoBehaviour
 
     public void OnThrow(InputAction.CallbackContext context)
     {
-        if(!FoundSpear || playerController.Stunned) return;
+        if(!FoundSpear || playerController.Stunned || playerController.Dead) return;
         if(context.started) //Press / Hold Button
         {
             HoldingAim = true;

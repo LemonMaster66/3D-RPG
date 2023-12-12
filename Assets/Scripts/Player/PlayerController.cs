@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public bool Rolling        = false;
     public bool RollingStorage = false;
     public bool Stunned        = false;
+    public bool Dead           = false;
 
     [Header("Turning Physics")]
     public bool DynamicTurningSpeeds = true;
@@ -107,6 +108,7 @@ public class PlayerController : MonoBehaviour
             // Calculate the Forward Angle
             float targetAngle = Mathf.Atan2(rb.velocity.x, rb.velocity.z) * Mathf.Rad2Deg;
             Quaternion toRotation = Quaternion.Euler(0f, targetAngle, 0f);
+
         #endregion
         //**********************************
         #region Animations
@@ -120,7 +122,7 @@ public class PlayerController : MonoBehaviour
             }
             if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Walk Idle - BlendTree") || Blend < 0.01) animator.speed = 1;
 
-            if(!Grounded && !Stunned)
+            if(!Grounded && !Stunned && !Dead)
             {
                 if(rb.velocity.y > 0 && !Rolling && !RollingStorage) animator.Play("Jump");
                 else if(rb.velocity.y < 0 && !Rolling && !RollingStorage) animator.Play("Fall");
@@ -128,7 +130,7 @@ public class PlayerController : MonoBehaviour
         #endregion
         //**********************************
 
-        if(Stunned) return;
+        if(Stunned || Dead) return;
 
         //Walking
         if(!Rolling && Grounded && timings.RollStorageTimer == 0)
@@ -141,6 +143,7 @@ public class PlayerController : MonoBehaviour
                 RollingStorage = false;
             }
             rb.freezeRotation = true;
+            
             if(VelocityMagnitudeXZ > 0.5) transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 0.25f);
         }
 
@@ -175,17 +178,19 @@ public class PlayerController : MonoBehaviour
         movementX = inputVector.x;
         movementY = inputVector.y;
     }
+
     public void OnJump(InputAction.CallbackContext context)
     {
-        if(context.started && Grounded && !Stunned)
+        if(context.started && Grounded && !Stunned && !Dead)
         {
             rb.AddForce(Vector3.up * JumpForce, ForceMode.VelocityChange);
             playerSFX.JumpAudio.Play();
         }
     }
+
     public void OnRoll(InputAction.CallbackContext context)
     {
-        if(Stunned) return;
+        if(Stunned || Dead) return;
 
         //Start Rolling
         if(context.started)

@@ -14,6 +14,7 @@ public class GroundCheck : MonoBehaviour
         playerController.SetGrounded(true);
         GroundObject = other.gameObject;
         Grounded = true;
+
         if(!playerController.Rolling && !playerController.Stunned)
         {
             playerController.Blend = 0;
@@ -24,12 +25,11 @@ public class GroundCheck : MonoBehaviour
         {
             playerController.Stunned = false;
             animator.Play("Land");
-            Debug.Log("Ouch");
         }
         else if(playerController.Stunned && playerController.Health <= 0)
         {
+            playerController.Dead = true;
             animator.Play("Land");
-            Debug.Log("Dead");
         }
     }
 

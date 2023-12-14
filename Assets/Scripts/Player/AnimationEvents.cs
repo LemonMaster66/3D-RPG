@@ -5,13 +5,17 @@ using UnityEngine;
 public class AnimationEvents : MonoBehaviour
 {
     private PlayerController playerController;
+    private Enemy enemy;
     public float Volume;
+
+    [Header("SFX")]
     public AudioSource StepSFX;
     public AudioClip[] steps;
 
     void Awake()
     {
         playerController = FindObjectOfType<PlayerController>();
+        enemy = GetComponentInParent<Enemy>();
     }
 
     void FootstepSfx()
@@ -22,15 +26,11 @@ public class AnimationEvents : MonoBehaviour
         StepSFX.Play();
     }
 
-    public void RecoverOrDie()
+    void EnemyFootstepSfx()
     {
-        if(playerController.Health > 0)
-        {
-            Debug.Log("Recover");
-        }
-        else if(playerController.Health <= 0)
-        {
-            Debug.Log("Darkness for You... and Death for your People");
-        }
+        Volume = enemy.Blend;
+        StepSFX.volume = Volume;
+        StepSFX.clip = steps[Random.Range(0,4)];
+        StepSFX.Play();
     }
 }

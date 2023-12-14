@@ -262,9 +262,6 @@ public class PlayerController : MonoBehaviour
         Stunned = true;
         Rolling = false;
         RollingStorage = false;
-        spear.Aiming = false;
-        spear.AimStorage = false;
-        spear.HoldingAim = false;
 
         rb.freezeRotation = true;
 
@@ -274,6 +271,14 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(directionToTarget*-1, Vector3.up);
         transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
-        animator.Play("T-Pose");
+        if(!Dead) animator.Play("Take Damage");
+        
+        if(spear.Aiming)
+        {
+            spear.Aiming = false;
+            spear.AimStorage = false;
+            spear.HoldingAim = false;
+            animator.Play("Spear Aim Out Mix");
+        }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerSFX : MonoBehaviour
 {
     public PlayerController playerController;
+    public Spear spear;
     public GroundCheck groundCheck; 
 
     public int VolumeDivide = 60;
@@ -16,16 +17,20 @@ public class PlayerSFX : MonoBehaviour
     public AudioSource LandAudio;
     
     [Header("Spear")]
-    public AudioSource Spear;
+    public AudioSource SpearSFX;
     public AudioClip[] ThrowSpear;
     public AudioClip[] RecallSpear;
-    public AudioClip[] RellSpeer;
+    public AudioClip   StopReeling;
+    public AudioSource ReelSpeer;
 
     [Header("SpearImpale")]
     public AudioSource Impale;
     public AudioClip[] ImpaleGround;
     public AudioClip[] ImpaleEnemy;
-    public AudioClip[] CatchSpear;
+    public AudioClip CatchSpear;
+
+    [Header("Death")]
+    public AudioSource Death;
 
 
     void FixedUpdate()

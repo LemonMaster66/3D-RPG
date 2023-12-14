@@ -11,6 +11,7 @@ public class Spear : MonoBehaviour
     private CinemachineFreeLook cinemachineFreeLook;
     private CinemachineComposer cinemachineComposer;
     private SpearCollision      spearCollision;
+    private PlayerSFX           playerSFX;
 
     public GameObject SpearPrefab;
     public GameObject SpearObject;
@@ -40,30 +41,34 @@ public class Spear : MonoBehaviour
     public Vector3 throwDirection;
     public GameObject collidedObject;
 
+    public AudioSource SpearWind;
+    public AudioSource Impale;
+
     void Start()
     {
         playerController    = FindObjectOfType<PlayerController>();
         animator            = GetComponentInChildren<Animator>();
         cinemachineFreeLook = FindObjectOfType<CinemachineFreeLook>();
         cinemachineComposer = FindObjectOfType<CinemachineComposer>();
+        playerSFX           = FindObjectOfType<PlayerSFX>();
     }
 
     void FixedUpdate()
     {
-        if(Aiming)
+        if(Aiming && !playerController.Dead)
         {
             //Walking
             if(!playerController.Rolling)
             {
                 cinemachineFreeLook.m_Lens.FieldOfView = Mathf.SmoothDamp(cinemachineFreeLook.m_Lens.FieldOfView, 30, ref CameraZoom, 0.2f);
-                cinemachineComposer.m_ScreenY          = Mathf.SmoothDamp(cinemachineComposer.m_ScreenY, 0.9f, ref CameraScreenY, 0.2f);
+                cinemachineComposer.m_ScreenY          = Mathf.SmoothDamp(cinemachineComposer.m_ScreenY, 1.0f, ref CameraScreenY, 0.2f);
                 playerController.MaxSpeed = playerController.MaxSpeed1-10;
             }
         }
-        else
+        else if(!Aiming && !playerController.Dead)
         {
             cinemachineFreeLook.m_Lens.FieldOfView = Mathf.SmoothDamp(cinemachineFreeLook.m_Lens.FieldOfView, 40, ref CameraZoom, 0.05f);
-            cinemachineComposer.m_ScreenY          = Mathf.SmoothDamp(cinemachineComposer.m_ScreenY, 0.7f, ref CameraScreenY, 0.05f);
+            cinemachineComposer.m_ScreenY          = Mathf.SmoothDamp(cinemachineComposer.m_ScreenY, 0.75f, ref CameraScreenY, 0.05f);
             if(!playerController.Rolling && playerController.MaxSpeed == playerController.MaxSpeed1-10) playerController.MaxSpeed = playerController.MaxSpeed1;
         }
 
@@ -97,6 +102,7 @@ public class Spear : MonoBehaviour
         SpearObject = Instantiate(SpearPrefab, transform.position + new Vector3(0, 2.5f, 0), Quaternion.identity);
         spearCollision = SpearObject.GetComponentInChildren<SpearCollision>();
         rb = SpearObject.GetComponent<Rigidbody>();
+
         //Thrown   = true;
         Throwing = true;
         Aiming   = false;
@@ -113,6 +119,12 @@ public class Spear : MonoBehaviour
         animator.SetLayerWeight(1, 1);
         BlendTarget = 0;
         BlendSmoothness = 0.5f;
+
+        SpearWind = SpearObject.GetComponentInChildren<SpearParts>().SpearWind;
+        Impale = SpearObject.GetComponentInChildren<SpearParts>().Impale;
+        SpearWind.Play();
+        playerSFX.SpearSFX.clip = playerSFX.ThrowSpear[UnityEngine.Random.Range(0,2)];
+        playerSFX.SpearSFX.Play();
     }
 
     public void RecallSpear()
@@ -128,6 +140,8 @@ public class Spear : MonoBehaviour
         animator.Play("Spear Recall");
         BlendTarget = 1;
         BlendSmoothness = 0.05f;
+
+        SpearWind.Play();
     }
 
     public void ResetSpear()
@@ -152,7 +166,24 @@ public class Spear : MonoBehaviour
             animator.SetLayerWeight(1, 1);
             BlendTarget = 0;
             BlendSmoothness = 0.5f;
+
+            playerSFX.Impale.clip = playerSFX.CatchSpear;
+            playerSFX.Impale.pitch = 1 + UnityEngine.Random.Range(-0.2f,0.2f);
+            playerSFX.Impale.Play();
         }
+    }
+
+    public void StartReeling()
+    {
+        Reeling = true;
+        playerSFX.ReelSpeer.Play();
+    }
+    public void StopReeling()
+    {
+        Reeling = false;
+        playerSFX.ReelSpeer.Stop();
+        playerSFX.SpearSFX.clip = playerSFX.StopReeling;
+        playerSFX.SpearSFX.Play();
     }
 
     //****************************************************************
@@ -186,6 +217,12 @@ public class Spear : MonoBehaviour
         playerController.rb.velocity += new Vector3 ( (transform.position.x - SpearObject.transform.position.x) / 30 *-1 ,
                                                       (transform.position.y - SpearObject.transform.position.y) / 30 *-1 , 
                                                       (transform.position.z - SpearObject.transform.position.z) / 30 *-1 );
+
+
+        playerSFX.ReelSpeer.Play();
+        playerSFX.ReelSpeer.volume = playerController.rb.velocity.magnitude/150;
+        playerSFX.SpearSFX.clip = playerSFX.StopReeling;
+        playerSFX.SpearSFX.Play();
     }
 
 
@@ -202,14 +239,14 @@ public class Spear : MonoBehaviour
             if(!playerController.Rolling && HasSpear) AimInSpear();                      //Aim Spear
             else if(!playerController.Rolling && !HasSpear) RecallSpear();               //Recall Spear
             else if(playerController.Rolling && HasSpear) AimStorage = true;             //Store Spear Aim
-            else if(playerController.Rolling && !HasSpear && Collided) Reeling = true;   //Reel In
+            else if(playerController.Rolling && !HasSpear && Collided) StartReeling();    //Reel In
         }
-        else if(context.canceled) //Release Button
+        else if(context.canceled && HoldingAim) //Release Button
         {
             HoldingAim = false;
             if(!playerController.Rolling && HasSpear) ThrowSpear();                      //Throw Spear
             else if(playerController.Rolling && HasSpear) AimStorage = false;            //Unstore Spear Aim
-            else if(playerController.Rolling && !HasSpear) Reeling = false;              //Stop Reeling In
+            else if(playerController.Rolling && !HasSpear) StopReeling();                //Stop Reeling In
         }
     }
 
@@ -225,6 +262,10 @@ public class Spear : MonoBehaviour
 
         Throwing = false;
         Collided = true;
+
+        SpearWind.Stop();
+        Impale.clip = playerSFX.ImpaleGround[UnityEngine.Random.Range(0,4)];
+        Impale.Play();
     }
 
     public void CollideEnemy()
@@ -239,5 +280,9 @@ public class Spear : MonoBehaviour
         Collided = true;
 
         spearCollision.CollidedObject.GetComponent<Enemy>().Die();
+
+        SpearWind.Stop();
+        Impale.clip = playerSFX.ImpaleEnemy[UnityEngine.Random.Range(0,3)];
+        Impale.Play();
     }
 }

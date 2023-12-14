@@ -8,6 +8,8 @@ public class GroundCheck : MonoBehaviour
     public GameObject GroundObject;
     public bool Grounded;
 
+    public GameObject DeathScreenForSomeReason;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == playerController.gameObject) return;
@@ -26,10 +28,12 @@ public class GroundCheck : MonoBehaviour
             playerController.Stunned = false;
             animator.Play("Land");
         }
-        else if(playerController.Stunned && playerController.Health <= 0)
+        else if(playerController.Stunned && playerController.Health <= 0 && !playerController.Dead)
         {
             playerController.Dead = true;
-            animator.Play("Land");
+            DeathScreenForSomeReason.SetActive(true);
+            animator.Play("Dead");
+            playerSFX.Death.Play();
         }
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -37,7 +38,13 @@ public class Enemy : MonoBehaviour
 
     [Header("Debug Stats")]
     public float      Blend;
+    public float      VelocityMagnitudeXZ;
     private int       decimals = 2;
+
+    [Header("SFX")]
+    public AudioSource AttackSfx;
+    public AudioClip[] AttackClip;
+
 
     void Awake()
     {
@@ -61,6 +68,21 @@ public class Enemy : MonoBehaviour
             // Forward Rotation Stuff
             float targetAngle = Mathf.Atan2(rb.velocity.x, rb.velocity.z) * Mathf.Rad2Deg;
             Quaternion toRotation = Quaternion.Euler(0f, targetAngle, 0f);
+
+            VelocityMagnitudeXZ = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
+        #endregion
+        //**********************************
+        #region Animations
+            //Speed Modifier
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk Idle - BlendTree"))
+            {
+                animator.speed = VelocityMagnitudeXZ/20;
+                animator.speed = Math.Clamp(animator.speed, 0, 1);
+                Blend = VelocityMagnitudeXZ/20;
+                animator.SetFloat("Blend", Blend, 0.1f, Time.deltaTime);
+            }
+            if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Walk Idle - BlendTree") || Blend < 0.01) animator.speed = 1;
+
         #endregion
         //**********************************
         #region Extra Physics Stuff
@@ -79,6 +101,7 @@ public class Enemy : MonoBehaviour
             }
         #endregion
         //**********************************
+        
 
         if(timings.EnemyAttackDuration == 0 && !Dead)
         {
@@ -121,8 +144,18 @@ public class Enemy : MonoBehaviour
     public void EnemyAttack()
     {
         timings.EnemyAttackDuration = 1;
-        movement = new Vector3(0,0,0);
         playerController.TakeDamage(this.gameObject);
+        
+        movement = new Vector3(0,0,0);
+
+        Vector3 directionToTarget = transform.position - playerController.transform.position;
+        transform.rotation = Quaternion.LookRotation(directionToTarget*-1, Vector3.up);
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+
+        animator.Play("Attack");
+        AttackSfx.clip = AttackClip[UnityEngine.Random.Range(0,3)];
+        AttackSfx.pitch = 1 + UnityEngine.Random.Range(-0.2f,0.2f);
+        AttackSfx.Play();
     }
 
     public void Die()
@@ -136,8 +169,8 @@ public class Enemy : MonoBehaviour
         Vector3 directionToTarget = transform.position - playerController.transform.position;
         rb.velocity = directionToTarget.normalized;
         rb.velocity = new Vector3(rb.velocity.x*100, rb.velocity.y*20+5, rb.velocity.z*100);
-        //transform.rotation = Quaternion.LookRotation(directionToTarget*-1, Vector3.up);
-        //transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+
+        animator.Play("Dead");
     }
 
 }

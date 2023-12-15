@@ -67,7 +67,7 @@ public class Spear : MonoBehaviour
         }
         else if(!Aiming && !playerController.Dead)
         {
-            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.SmoothDamp(cinemachineFreeLook.m_Lens.FieldOfView, 40, ref CameraZoom, 0.05f);
+            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.SmoothDamp(cinemachineFreeLook.m_Lens.FieldOfView, 45, ref CameraZoom, 0.05f);
             cinemachineComposer.m_ScreenY          = Mathf.SmoothDamp(cinemachineComposer.m_ScreenY, 0.75f, ref CameraScreenY, 0.05f);
             if(!playerController.Rolling && playerController.MaxSpeed == playerController.MaxSpeed1-10) playerController.MaxSpeed = playerController.MaxSpeed1;
         }
@@ -217,12 +217,6 @@ public class Spear : MonoBehaviour
         playerController.rb.velocity += new Vector3 ( (transform.position.x - SpearObject.transform.position.x) / 30 *-1 ,
                                                       (transform.position.y - SpearObject.transform.position.y) / 30 *-1 , 
                                                       (transform.position.z - SpearObject.transform.position.z) / 30 *-1 );
-
-
-        playerSFX.ReelSpeer.Play();
-        playerSFX.ReelSpeer.volume = playerController.rb.velocity.magnitude/150;
-        playerSFX.SpearSFX.clip = playerSFX.StopReeling;
-        playerSFX.SpearSFX.Play();
     }
 
 
